@@ -395,7 +395,7 @@ if __name__ == '__main__':
     sw_info = {'sw_ip':"10.21.1.32",'dev_man':'HUAWEI'}
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
-    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '])
+    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     print b
 
 
