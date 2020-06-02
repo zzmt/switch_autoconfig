@@ -423,7 +423,8 @@ if __name__ == '__main__':
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
-    print a.Show_Interface_Status(['HundredGigE16/0/7','HundredGigE16/0/6' , 'HundredGigE16/0/5'],sw_info)
+    print a.Show_Interface_Status(['HundredGigE16/0/100','HundredGigE16/0/6' , 'HundredGigE16/0/5'],sw_info)
+
     time_end = time.time()
     print('totally cost', time_end - time_start)
 
