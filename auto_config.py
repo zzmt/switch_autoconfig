@@ -106,10 +106,11 @@ class cmd_config(object):
             if 'HUAWEI' in self.netdev_manuf:
                 huawei = HUAWEI(self.ip, self.username, self.password)
                 huawei.connect()
+                uawei.commands(['screen-length 0 temporary'])
                 for dip in dip_list:
 
                     try:
-                        output = huawei.commands(['screen-length 0 temporary','dis ip ro '+dip+' verbose'])
+                        output = huawei.commands(['dis ip ro '+dip+' verbose'])
                         temp_out = output.split('Destination')
                         temp_out.pop(0)
 
@@ -151,11 +152,11 @@ class cmd_config(object):
             if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
                 ruijie = RUIJIE(self.ip, self.username, self.password)
                 ruijie.connect()
-
+                ruijie.commands(['terminal length 0'])
                 for dip in dip_list:
                     try:
 
-                        output = ruijie.commands(['terminal length 0','show ip ro '+dip])
+                        output = ruijie.commands(['show ip ro '+dip])
                         temp_out = output.split('\r')
                         for i in temp_out:
                             if 'via' in i:
