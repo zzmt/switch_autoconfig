@@ -404,6 +404,6 @@ if __name__ == '__main__':
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
-    print a.Show_Ip_Next_Interface(['10.8.0.13 20','10.8.0.15'],sw_info)
+    print a.Show_Ip_Next_Interface(['10.8.0.13','10.8.0.15'],sw_info)
 
 
