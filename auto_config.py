@@ -106,7 +106,7 @@ class cmd_config(object):
             if 'HUAWEI' in self.netdev_manuf:
                 huawei = HUAWEI(self.ip, self.username, self.password)
                 huawei.connect()
-                uawei.commands(['screen-length 0 temporary'])
+                huawei.commands(['screen-length 0 temporary'])
                 for dip in dip_list:
 
                     try:
