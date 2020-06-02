@@ -386,6 +386,10 @@ class network_workflow_cmd(object):
         dev_Recover_ospf_cmd = dev_config.Recover_DCI_ospf_cmd(ospf_cost_dict_recover)
         return {'DCI_Isolate_ospf_cmd':dev_Isolate_ospf_cmd,'DCI_Recover_ospf_cmd':dev_Recover_ospf_cmd}
 
+    def Show_Ip_Next_Interface(self,dip_list,sw_info):
+        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        result = dev_config.show_ip_next_interface(dip_list)
+        return  result
 
 if __name__ == '__main__':
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
@@ -394,8 +398,9 @@ if __name__ == '__main__':
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
     sw_info = {'sw_ip':"10.21.1.32",'dev_man':'HUAWEI'}
     a = network_workflow_cmd()
-    b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
-    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
-    print c
+    #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
+    #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
+    #
+    print a.Show_Ip_Next_Interface(['10.8.0.13'],['10.8.0.15'])
 
 
