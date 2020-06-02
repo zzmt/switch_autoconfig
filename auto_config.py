@@ -391,7 +391,7 @@ class network_workflow_cmd(object):
         result = dev_config.show_ip_next_interface(dip_list)
         return  result
 
-    def Show_Interface_Status(self):
+    #def Show_Interface_Status(self):
 
 if __name__ == '__main__':
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
