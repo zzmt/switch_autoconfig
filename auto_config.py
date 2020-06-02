@@ -138,7 +138,6 @@ class cmd_config(object):
                         for i in temp_out:
                                 temp_str = " ".join(i.split())
                                 temp_list.append(temp_str)
-                                print temp_str
                         for i in temp_list:
                                 hw_pattern = ur'Interface:\s(.*?)\s'
                                 re_obj = re.search(hw_pattern, i)
@@ -392,6 +391,8 @@ class network_workflow_cmd(object):
         result = dev_config.show_ip_next_interface(dip_list)
         return  result
 
+    def Show_Interface_Status(self):
+
 if __name__ == '__main__':
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
@@ -402,6 +403,6 @@ if __name__ == '__main__':
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
-    print a.Show_Ip_Next_Interface(['10.8.0.13','10.8.0.15'],sw_info)
+    print a.Show_Ip_Next_Interface(['10.8.0.13 20','10.8.0.15'],sw_info)
 
 
