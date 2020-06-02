@@ -72,7 +72,7 @@ class SSH(object):
                 not_done = False
         return output
 
-    def commands(self, commands_list, delay=3):
+    def commands(self, commands_list, delay=2.5):
         output = str()
         if list(commands_list):
             for command in commands_list:
