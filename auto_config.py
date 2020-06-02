@@ -5,7 +5,7 @@ import re
 from sw_config import H3C
 from sw_config import HUAWEI
 from sw_config import RUIJIE
-
+import time
 
 class cmd_config(object):
     def __init__(self, ip, username, password, netdev_manuf):
@@ -412,6 +412,8 @@ class network_workflow_cmd(object):
         return  result
 
 if __name__ == '__main__':
+    time_start = time.time()
+
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
@@ -422,5 +424,7 @@ if __name__ == '__main__':
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
     print a.Show_Interface_Status(['HundredGigE16/0/7','HundredGigE16/0/6' , 'HundredGigE16/0/5'],sw_info)
+    time_end = time.time()
+    print('totally cost', time_end - time_start)
 
 
