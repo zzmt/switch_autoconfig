@@ -65,13 +65,11 @@ class SSH(object):
         not_done = True
         output = str()
         while not_done:
-            #self.time.sleep(delay)
+            self.time.sleep(delay)
             if self.client_conn.recv_ready():
                 output += self.client_conn.recv(self.buffer).decode('utf-8')
-                self.time.sleep(delay)
             else:
                 not_done = False
-                self.time.sleep(delay)
         return output
 
     def commands(self, commands_list, delay=3):
