@@ -279,13 +279,13 @@ class cmd_config(object):
         for port, cost in ospf_cost_dict.items():
 
             if 'HUAWEI' in self.netdev_manuf:
-                tmp_cmd = 'int {port},ospf cost {isolate_cost}'.format(port=port, isolate_cost=isolate_cost)
+                tmp_cmd = 'int {port},ospf cost {cost}'.format(port=port, cost=cost)
                 HUAWEI_cmd = HUAWEI_cmd + ',' + tmp_cmd
             if 'H3C' in self.netdev_manuf:
-                tmp_cmd = 'int {port},ospf cost {isolate_cost}'.format(port=port, isolate_cost=isolate_cost)
+                tmp_cmd = 'int {port},ospf cost {cost}'.format(port=port, cost=cost)
                 H3C_cmd = H3C_cmd + tmp_cmd
             if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
-                tmp_cmd = 'int {port},ip ospf cost {isolate_cost}'.format(port=port, isolate_cost=isolate_cost)
+                tmp_cmd = 'int {port},ip ospf cost {cost}'.format(port=port, cost=cost)
                 ruijie_cmd = ruijie_cmd + tmp_cmd
 
         isolate_cmd = {'HUAWEI': HUAWEI_cmd, 'H3C': H3C_cmd, 'RUIJIE': ruijie_cmd}
@@ -396,6 +396,6 @@ if __name__ == '__main__':
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
-    print b
+    print c
 
 
