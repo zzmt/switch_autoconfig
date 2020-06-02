@@ -325,19 +325,31 @@ class cmd_config(object):
         cmd_dict = {'HUAWEI': cmd_huawei, 'H3C': cmd_h3c, 'RUIJIE': cmd_ruijie}
         return cmd_dict
 
-    def show_BGP_Peer_Status(self,peer_ip):
-        if 'HUAWEI' in self.netdev_manuf:
-            huawei = HUAWEI(self.ip, self.username, self.password)
-            huawei.connect()
-            cmds = 'screen-length 0 temporary , dis bgp peer  {peer_ip} verbose'.format(peer_ip = peer_ip)
-            output = huawei.commands(cmds.split(','))
-            tmp_str = output.split('\r')
-            for i in tmp_str:
-                if 'BGP current state' in i:
-                    hw_pattern = ur'BGP current state:\s(.*?),'
-                    re_obj = re.search(hw_pattern, i)
-                    status = re_obj.groups()[0]
-        return status
+    def show_BGP_Peer_Status(self,peer_ip_list):
+
+        peer_status = {}
+
+        try :
+            if 'HUAWEI' in self.netdev_manuf:
+                huawei = HUAWEI(self.ip, self.username, self.password)
+                huawei.connect()
+                huawei.commands(['screen-length 0 temporary'])
+                for peer_ip in peer_ip_list:
+                    status = ''
+                    try:
+                        cmds = 'dis bgp peer  {peer_ip} verbose'.format(peer_ip = peer_ip)
+                        output = huawei.commands(cmds.split(','))
+                        tmp_str = output.split('\r')
+                        for i in tmp_str:
+                            if 'BGP current state' in i:
+                                hw_pattern = ur'BGP current state:\s(.*?),'
+                                re_obj = re.search(hw_pattern, i)
+                                status = re_obj.groups()[0].lower()
+                    finally:
+                        peer_status[peer_ip] = status
+
+        finally:
+            return peer_status
 
 
 
@@ -411,6 +423,11 @@ class network_workflow_cmd(object):
         result = dev_config.show_interface_status(port_list)
         return  result
 
+    def Show_Bgp_Peer_Status(self,peer_list,sw_info):
+        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        result = dev_config.show_BGP_Peer_Status(peer_list)
+        return  result
+
 if __name__ == '__main__':
     time_start = time.time()
 
@@ -418,12 +435,12 @@ if __name__ == '__main__':
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
-    sw_info = {'sw_ip':"10.8.0.13",'dev_man':'HUAWEI'}
+    sw_info = {'sw_ip':"103.37.136.1",'dev_man':'HUAWEI'}
     a = network_workflow_cmd()
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
-    print a.Show_Interface_Status(['HundredGigE16/0/100','HundredGigE16/0/6' , 'HundredGigE16/0/5'],sw_info)
+    print a.Show_Bgp_Peer_Status(['111.13.155.2','111.13.155.14'],sw_info)
 
     time_end = time.time()
     print('totally cost', time_end - time_start)
