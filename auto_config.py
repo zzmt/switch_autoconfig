@@ -61,6 +61,7 @@ class cmd_config(object):
         ospf_list = []
         ospf_dict ={}
         re_cost = ur'cost\s(.*?)\s'
+
         if 'HUAWEI' in self.netdev_manuf:
             huawei = HUAWEI(self.ip, self.username, self.password)
             huawei.connect()
@@ -179,43 +180,56 @@ class cmd_config(object):
         #local_port为list返回端口状态up\down\*down
         port_list = []
         port_dict ={}
-        if 'HUAWEI' in self.netdev_manuf:
-            huawei = HUAWEI(self.ip, self.username, self.password)
-            huawei.connect()
-            for port in local_port:
-                output = huawei.commands(['screen-length 0 temporary','dis int brie | in '+port])
-                temp_list = output.split('\n')
-                temp = temp_list.pop(-2)
-                temp_str = " ".join(temp.split())
-                status = temp_str.split(' ')[1]
-                port_dict[port] = status
 
-            huawei.close()
-        if "H3C" in self.netdev_manuf:
-            h3c = H3C(self.ip, self.username, self.password)
-            h3c.connect()
-            for port in local_port:
-                output = h3c.commands(['screen-length 0 temporary','dis int brie | in '+port])
-                temp_list = output.split('\n')
-                temp = temp_list.pop(-2)
-                temp_str = " ".join(temp.split())
-                status = temp_str.split(' ')[1]
-                port_dict[port] = status
-            h3c.close()
+        try:
+            if 'HUAWEI' in self.netdev_manuf:
 
-        if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
-            ruijie = RUIJIE(self.ip, self.username, self.password)
-            ruijie.connect()
-            for port in local_port:
-                output = ruijie.commands(['show interface status | in '+port])
-                temp_list = output.split('\n')
-                temp = temp_list.pop(-2)
-                temp_str = " ".join(temp.split())
-                status = temp_str.split(' ')[2]
-                port_dict[port] = status
-            ruijie.close()
+                huawei = HUAWEI(self.ip, self.username, self.password)
+                huawei.connect()
 
-        return port_dict
+                try:
+
+                    for port in local_port:
+                        output = huawei.commands(['dis int brie | in '+port])
+                        temp_list = output.split('\n')
+                        temp = temp_list.pop(-2)
+                        temp_str = " ".join(temp.split())
+                        status = temp_str.split(' ')[1]
+                        port_dict[port] = status
+                finally:
+                    huawei.close()
+            if "H3C" in self.netdev_manuf:
+                h3c = H3C(self.ip, self.username, self.password)
+                h3c.connect()
+
+                try:
+                    for port in local_port:
+                        output = h3c.commands(['dis int  '+port+'  brief'])
+                        temp_list = output.split('\n')
+                        temp = temp_list.pop(-2)
+                        temp_str = " ".join(temp.split())
+                        status = temp_str.split(' ')[1]
+                        port_dict[port] = status
+                finally:
+                    h3c.close()
+
+            if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
+                ruijie = RUIJIE(self.ip, self.username, self.password)
+                ruijie.connect()
+                try:
+                    for port in local_port:
+                        output = ruijie.commands(['show interface status | in '+port])
+                        temp_list = output.split('\n')
+                        temp = temp_list.pop(-2)
+                        temp_str = " ".join(temp.split())
+                        status = temp_str.split(' ')[2]
+                        port_dict[port] = status
+                finally:
+                    ruijie.close()
+
+        finally:
+
+            return port_dict
 
     def Isolate_bgp_cmd(self, remote_ip,  bgp):
         #通用交换机流量隔离方法,remote_ip为list
@@ -392,18 +406,21 @@ class network_workflow_cmd(object):
         result = dev_config.show_ip_next_interface(dip_list)
         return  result
 
-    #def Show_Interface_Status(self):
+    def Show_Interface_Status(self,port_list,sw_info):
+        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        result = dev_config.show_interface_status(port_list)
+        return  result
 
 if __name__ == '__main__':
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
-    sw_info = {'sw_ip':"10.20.0.1",'dev_man':'H3C'}
+    sw_info = {'sw_ip':"10.20.0.4",'dev_man':'H3C'}
     a = network_workflow_cmd()
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
     #
-    print a.Show_Ip_Next_Interface(['10.8.0.13','10.8.0.15'],sw_info)
+    print a.Show_Interface_Status(['HundredGigE16/0/7','HundredGigE16/0/6' , 'HundredGigE16/0/5'],sw_info)
 
 
