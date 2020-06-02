@@ -418,7 +418,7 @@ if __name__ == '__main__':
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
-    sw_info = {'sw_ip':"10.20.0.4",'dev_man':'H3C'}
+    sw_info = {'sw_ip':"10.8.0.13",'dev_man':'HUAWEI'}
     a = network_workflow_cmd()
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
