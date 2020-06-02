@@ -128,10 +128,10 @@ class cmd_config(object):
             if "H3C" in self.netdev_manuf:
                 h3c = H3C(self.ip, self.username, self.password)
                 h3c.connect()
-
+                h3c.commands(['screen-length disable'])
                 for dip in dip_list:
                     try:
-                        output = h3c.commands(['screen-length disable','dis ip ro '+dip+' verbose'])
+                        output = h3c.commands(['dis ip ro '+dip+' verbose'])
                         temp_out = output.split('Destination')
                         temp_out.pop(0)
 
