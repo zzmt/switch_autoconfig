@@ -195,7 +195,7 @@ class cmd_config(object):
                         temp = temp_list.pop(-2)
                         temp_str = " ".join(temp.split())
                         status = temp_str.split(' ')[1]
-                        port_dict[port] = status
+                        port_dict[port] = status.lower()
                 finally:
                     huawei.close()
             if "H3C" in self.netdev_manuf:
@@ -209,7 +209,7 @@ class cmd_config(object):
                         temp = temp_list.pop(-2)
                         temp_str = " ".join(temp.split())
                         status = temp_str.split(' ')[1]
-                        port_dict[port] = status
+                        port_dict[port] = status.lower()
                 finally:
                     h3c.close()
 
@@ -223,7 +223,7 @@ class cmd_config(object):
                         temp = temp_list.pop(-2)
                         temp_str = " ".join(temp.split())
                         status = temp_str.split(' ')[2]
-                        port_dict[port] = status
+                        port_dict[port] = status.lower()
                 finally:
                     ruijie.close()
 
