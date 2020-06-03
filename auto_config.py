@@ -61,7 +61,7 @@ class cmd_config(object):
         ospf_list = []
         ospf_dict ={}
         re_cost = ur'cost\s(.*?)\s'
-        cost = '0'
+        cost = ''
 
         if 'HUAWEI' in self.netdev_manuf:
             huawei = HUAWEI(self.ip, self.username, self.password)
