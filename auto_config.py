@@ -288,10 +288,10 @@ class cmd_config(object):
                 HUAWEI_cmd = HUAWEI_cmd+','+tmp_cmd
             if 'H3C' in self.netdev_manuf:
                 tmp_cmd = 'int {port},ospf cost {isolate_cost}'.format(port=port,isolate_cost=isolate_cost)
-                H3C_cmd = H3C_cmd+tmp_cmd
+                H3C_cmd = H3C_cmd+','+tmp_cmd
             if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
                 tmp_cmd = 'int {port},ip ospf cost {isolate_cost}'.format(port=port,isolate_cost=isolate_cost)
-                ruijie_cmd = ruijie_cmd+tmp_cmd
+                ruijie_cmd = ruijie_cmd+','+tmp_cmd
 
         isolate_cmd  = {'HUAWEI': HUAWEI_cmd,'H3C': H3C_cmd,'RUIJIE': ruijie_cmd}
 
