@@ -76,7 +76,7 @@ class cmd_config(object):
                     cost = tmp.groups()[0]
                     ospf_dict[port] = cost
                 except Exception as e:
-                    ospf_dict[port] = cost
+                    print 'port-error'
             huawei.close()
         if "H3C" in self.netdev_manuf:
             h3c = H3C(self.ip, self.username, self.password)
@@ -89,7 +89,7 @@ class cmd_config(object):
                     cost = tmp.groups()[0]
                     ospf_dict[port] = cost
                 except Exception as e:
-                    ospf_dict[port] = cost
+                    print 'port-error'
             h3c.close()
 
         if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
@@ -102,7 +102,7 @@ class cmd_config(object):
                     tmp = re.search(re_cost, output)
                     ospf_dict[port] = cost
                 except Exception as e:
-                    ospf_dict[port] = cost
+                    print 'port-error'
             ruijie.close()
 
         return ospf_dict
@@ -461,7 +461,7 @@ if __name__ == '__main__':
 
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
-    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
+    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/53 '],sw_info)
     print c
     print a.Up_Interface_cmd(['1/0/1'],sw_info)
 
