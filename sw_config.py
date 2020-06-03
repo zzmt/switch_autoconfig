@@ -69,8 +69,8 @@ class SSH(object):
             #self.time.sleep(delay)
 
             while 1:
-                if command not in self.client_conn.recv(self.buffer).decode('utf-8'):
-                    print self.client_conn.recv(self.buffer).decode('utf-8')
+                res = self.client_conn.recv(self.buffer).decode('utf-8')
+                if '>' in res or '#' in res or '~' in res:
                     break
 
             if self.client_conn.recv_ready():
