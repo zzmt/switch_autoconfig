@@ -428,21 +428,29 @@ class network_workflow_cmd(object):
         result = dev_config.show_BGP_Peer_Status(peer_list)
         return  result
 
+    def Shutdown_Interface_cmd(self,portlist,sw_info):
+        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+
+        cmd  = dev_config.operate_interface_cmd(portlist, 'shutdown', 'shutdown')
+        return cmd
+
+    def Up_Interface_cmd(self,portlist,sw_info):
+        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        cmd  = dev_config.operate_interface_cmd(portlist, 'undo shutdown', 'no shutdown')
+        return cmd
+
+
 if __name__ == '__main__':
-    time_start = time.time()
 
     BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
     sw_info = {'sw_ip':"103.37.136.1",'dev_man':'HUAWEI'}
+
     a = network_workflow_cmd()
-    #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
-    #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
-    #
-    print a.Show_Bgp_Peer_Status(['111.13.155.100','111.13.155.14'],sw_info)
+    b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
+    c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
 
-    time_end = time.time()
-    print('totally cost', time_end - time_start)
-
+    print a.Up_Interface_cmd(['1/0/1'],sw_info)
 
