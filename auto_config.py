@@ -110,9 +110,7 @@ class cmd_config(object):
     #查看路由下一跳，返回到目标ip的所有端口的list
     def show_ip_next_interface(self,dip_list):
         #通用交换机查看路由下一跳出接口方法，返回list
-        temp_list = []
-        port_list = []
-        nhp_port_list = []
+
         nhp_port_dict = {}
         try:
             if 'HUAWEI' in self.netdev_manuf:
@@ -120,7 +118,9 @@ class cmd_config(object):
                 huawei.connect()
                 huawei.commands(['screen-length 0 temporary'])
                 for dip in dip_list:
-
+                    temp_list = []
+                    port_list = []
+                    nhp_port_list = []
                     try:
                         output = huawei.commands(['dis ip ro '+dip+' verbose'])
                         temp_out = output.split('Destination')
@@ -143,6 +143,9 @@ class cmd_config(object):
                 h3c.connect()
                 h3c.commands(['screen-length disable'])
                 for dip in dip_list:
+                    temp_list = []
+                    port_list = []
+                    nhp_port_list = []
                     try:
                         output = h3c.commands(['dis ip ro '+dip+' verbose'])
                         temp_out = output.split('Destination')
@@ -166,6 +169,9 @@ class cmd_config(object):
                 ruijie.connect()
                 ruijie.commands(['terminal length 0'])
                 for dip in dip_list:
+                    temp_list = []
+                    port_list = []
+                    nhp_port_list = []
                     try:
 
                         output = ruijie.commands(['show ip ro '+dip])
