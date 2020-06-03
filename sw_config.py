@@ -60,14 +60,14 @@ class SSH(object):
         self.client_conn.sendall(command + "\n")
         self.clear_buffer()
 
-    def command(self, command, delay):
+    def command(self, command, delay=1):
         self.client_conn.sendall(command + "\n")
         not_done = True
         output = str()
         res = ''
         while not_done:
 
-            self.time.sleep(1)
+            self.time.sleep(delay)
 
 
             if self.client_conn.recv_ready():
