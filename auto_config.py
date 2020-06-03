@@ -84,7 +84,6 @@ class cmd_config(object):
                 try:
                     H3C_cmd = 'dis cu int {local_port}'.format(local_port=port)
                     output = h3c.commands([H3C_cmd])
-                    print output
                     tmp = re.search(re_cost, output)
                     cost = tmp.groups()[0]
                 finally:
