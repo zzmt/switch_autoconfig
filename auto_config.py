@@ -61,37 +61,47 @@ class cmd_config(object):
         ospf_list = []
         ospf_dict ={}
         re_cost = ur'cost\s(.*?)\s'
+        cost = ''
 
         if 'HUAWEI' in self.netdev_manuf:
             huawei = HUAWEI(self.ip, self.username, self.password)
             huawei.connect()
+
             for port in local_port:
-                HUAWEI_cmd = 'dis cu int {local_port}'.format(local_port=port)
-                output = huawei.commands([HUAWEI_cmd])
-                tmp = re.search(re_cost, output)
-                cost = tmp.groups()[0]
-                ospf_dict[port] = cost
+                try:
+                    HUAWEI_cmd = 'dis cu int {local_port}'.format(local_port=port)
+                    output = huawei.commands([HUAWEI_cmd])
+
+                    tmp = re.search(re_cost, output)
+                    cost = tmp.groups()[0]
+                finally:
+                    ospf_dict[port] = cost
             huawei.close()
         if "H3C" in self.netdev_manuf:
             h3c = H3C(self.ip, self.username, self.password)
             h3c.connect()
             for port in local_port:
-                H3C_cmd = 'dis cu int {local_port}'.format(local_port=port)
-                output = h3c.commands([H3C_cmd])
-                tmp = re.search(re_cost, output)
-                cost = tmp.groups()[0]
-                ospf_dict[port] = cost
+                try:
+                    H3C_cmd = 'dis cu int {local_port}'.format(local_port=port)
+                    output = h3c.commands([H3C_cmd])
+                    print output
+                    tmp = re.search(re_cost, output)
+                    cost = tmp.groups()[0]
+                finally:
+                    ospf_dict[port] = cost
             h3c.close()
 
         if "Ruijie" in self.netdev_manuf or "RUIJIE" in self.netdev_manuf:
             ruijie = RUIJIE(self.ip, self.username, self.password)
             ruijie.connect()
             for port in local_port:
-                RUIJIE_cmd = 'show running-config int {local_port}'.format(local_port=port)
-                output = ruijie.commands([RUIJIE_cmd])
-                tmp = re.search(re_cost, output)
-                cost = tmp.groups()[0]
-                ospf_dict[port] = cost
+                try:
+                    RUIJIE_cmd = 'show running-config int {local_port}'.format(local_port=port)
+                    output = ruijie.commands([RUIJIE_cmd])
+                    tmp = re.search(re_cost, output)
+                    cost = tmp.groups()[0]
+                finally:
+                    ospf_dict[port] = cost
             ruijie.close()
 
         return ospf_dict
