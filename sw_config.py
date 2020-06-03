@@ -71,6 +71,7 @@ class SSH(object):
             while 1:
                 res = self.client_conn.recv(self.buffer).decode('utf-8')
                 if '>' in res or '#' in res or '~' in res:
+                    print res
                     break
 
             if self.client_conn.recv_ready():
