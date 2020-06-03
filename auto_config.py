@@ -446,7 +446,7 @@ if __name__ == '__main__':
                 'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
 
     BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
-    sw_info = {'sw_ip':"103.37.136.1",'dev_man':'HUAWEI'}
+    sw_info = {'sw_ip':"10.21.1.32",'dev_man':'H3C'}
 
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
