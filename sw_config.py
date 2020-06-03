@@ -64,6 +64,7 @@ class SSH(object):
         self.client_conn.sendall(command + "\n")
         not_done = True
         output = str()
+        res = ''
         while not_done:
             #self.time.sleep(delay)
 
