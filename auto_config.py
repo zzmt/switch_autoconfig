@@ -61,7 +61,7 @@ class cmd_config(object):
         ospf_list = []
         ospf_dict ={}
         re_cost = ur'cost\s(.*?)\s'
-        cost = ''
+        cost = '0'
 
         if 'HUAWEI' in self.netdev_manuf:
             huawei = HUAWEI(self.ip, self.username, self.password)
@@ -74,7 +74,8 @@ class cmd_config(object):
 
                     tmp = re.search(re_cost, output)
                     cost = tmp.groups()[0]
-                finally:
+                    ospf_dict[port] = cost
+                except Exception as e:
                     ospf_dict[port] = cost
             huawei.close()
         if "H3C" in self.netdev_manuf:
@@ -86,7 +87,8 @@ class cmd_config(object):
                     output = h3c.commands([H3C_cmd])
                     tmp = re.search(re_cost, output)
                     cost = tmp.groups()[0]
-                finally:
+                    ospf_dict[port] = cost
+                except Exception as e:
                     ospf_dict[port] = cost
             h3c.close()
 
@@ -98,8 +100,8 @@ class cmd_config(object):
                     RUIJIE_cmd = 'show running-config int {local_port}'.format(local_port=port)
                     output = ruijie.commands([RUIJIE_cmd])
                     tmp = re.search(re_cost, output)
-                    cost = tmp.groups()[0]
-                finally:
+                    ospf_dict[port] = cost
+                except Exception as e:
                     ospf_dict[port] = cost
             ruijie.close()
 
