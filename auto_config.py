@@ -462,6 +462,6 @@ if __name__ == '__main__':
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/49 '],sw_info)
-
+    print c
     print a.Up_Interface_cmd(['1/0/1'],sw_info)
 
