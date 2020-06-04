@@ -472,5 +472,5 @@ if __name__ == '__main__':
     #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
     #c = a.OSPF_Isolate_workflow_cmd(['FGE1/0/49','FGE1/0/51','FGE2/0/53 '],sw_info)
 
-    print a.Show_Bgp_Peer_Status(['59.108.162.221'],sw_info)
+    print a.Show_Bgp_Peer_Status(['59.108.162.221','103.37.137.26'],sw_info)
 
