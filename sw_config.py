@@ -32,7 +32,7 @@ class SSH(object):
         while 1:
             temp = self.client_conn.recv(self.buffer)
             res = res + temp
-            print res
+
             if '>' in res or '#' in res or '~' in res:
                 break
         return res
