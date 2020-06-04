@@ -72,6 +72,7 @@ class SSH(object):
 
             if self.client_conn.recv_ready():
                 output += self.client_conn.recv(self.buffer).decode('utf-8')
+                print output
             else:
                 not_done = False
         return output
