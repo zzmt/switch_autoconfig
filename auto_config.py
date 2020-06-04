@@ -7,6 +7,9 @@ from sw_config import HUAWEI
 from sw_config import RUIJIE
 import time
 
+sw_user = 'mipwalker'
+sw_password = 'meituan@wangjing'
+
 class cmd_config(object):
     def __init__(self, ip, username, password, netdev_manuf):
         self.ip = ip
@@ -389,8 +392,8 @@ class network_workflow_cmd(object):
         dev_pop1_bgp_traffic_port = BGP_traffic_port.get('POP1')
         dev_pop2_bgp_traffic_port = BGP_traffic_port.get('POP2')
 
-        dev_pop1_config = cmd_config(sw_pop1,'sankuai','Netadmin00@mt',dev_pop1_man)
-        dev_pop2_config = cmd_config(sw_pop2,'sankuai','Netadmin00@mt',dev_pop2_man)
+        dev_pop1_config = cmd_config(sw_pop1,sw_user,sw_password,dev_pop1_man)
+        dev_pop2_config = cmd_config(sw_pop2,user,pas,dev_pop2_man)
 
         #ignore bgp邻居命令
         dev_pop1_Isolate_bgp_cmd = dev_pop1_config.Isolate_bgp_cmd(bgp_peer_ip_pop1,dev_pop1_bgp_as).get(dev_pop1_man)
@@ -423,7 +426,7 @@ class network_workflow_cmd(object):
 
     def OSPF_Isolate_workflow_cmd(self,port_list,sw_info):
         #sw_info= {'sw_ip':'','dev_man':''}
-        dev_config = cmd_config(sw_info.get('sw_ip'),'sankuai','Netadmin00@mt',sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'),sw_user,sw_password,sw_info.get('dev_man'))
 
         ospf_cost_dict_recover = dev_config.Get_ospf_cost(port_list)
         dev_Isolate_ospf_cmd = dev_config.Isolate_DCI_ospf_cmd(ospf_cost_dict_recover)
@@ -431,28 +434,28 @@ class network_workflow_cmd(object):
         return {'DCI_Isolate_ospf_cmd':dev_Isolate_ospf_cmd,'DCI_Recover_ospf_cmd':dev_Recover_ospf_cmd}
 
     def Show_Ip_Next_Interface(self,dip_list,sw_info):
-        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
         result = dev_config.show_ip_next_interface(dip_list)
         return  result
 
     def Show_Interface_Status(self,port_list,sw_info):
-        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
         result = dev_config.show_interface_status(port_list)
         return  result
 
     def Show_Bgp_Peer_Status(self,peer_list,sw_info):
-        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
         result = dev_config.show_BGP_Peer_Status(peer_list)
         return  result
 
     def Shutdown_Interface_cmd(self,portlist,sw_info):
-        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
 
         cmd  = dev_config.operate_interface_cmd(portlist, 'shutdown', 'shutdown')
         return cmd
 
     def Up_Interface_cmd(self,portlist,sw_info):
-        dev_config = cmd_config(sw_info.get('sw_ip'), 'sankuai', 'Netadmin00@mt', sw_info.get('dev_man'))
+        dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
         cmd  = dev_config.operate_interface_cmd(portlist, 'undo shutdown', 'no shutdown')
         return cmd
 
