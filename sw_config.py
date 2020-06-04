@@ -65,9 +65,8 @@ class SSH(object):
         not_done = True
         output = str()
         res = ''
+        self.time.sleep(delay)
         while not_done:
-
-            #self.time.sleep(delay)
 
             print not_done
             if self.client_conn.recv_ready():
