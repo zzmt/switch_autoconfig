@@ -469,8 +469,11 @@ if __name__ == '__main__':
     sw_info = {'sw_ip':"10.8.0.15",'dev_man':'HUAWEI'}
 
     a = network_workflow_cmd()
-    #b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
-    c = a.OSPF_Isolate_workflow_cmd(['100GE2/0/30','100GE3/0/30','100GE4/0/30'],sw_info)
+    b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
+    #c = a.OSPF_Isolate_workflow_cmd(['100GE2/0/30','100GE3/0/30','100GE4/0/30'],sw_info)
 
     #print a.Show_Bgp_Peer_Status(['59.108.162.221','103.37.137.26'],sw_info)
-    print c
+    #dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
+    #output = dev_config.config_cmd(c.get('DCI_Isolate_ospf_cmd').get('dev_man'))
+
+    print b
