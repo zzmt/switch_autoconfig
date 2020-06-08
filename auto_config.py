@@ -468,4 +468,6 @@ if __name__ == '__main__':
     #dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
     #output = dev_config.config_cmd(c.get('DCI_Isolate_ospf_cmd').get('dev_man'))
 
-    print b
+    d = a.Shutdown_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
+
+    print d
