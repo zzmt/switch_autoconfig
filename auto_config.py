@@ -393,7 +393,7 @@ class network_workflow_cmd(object):
         dev_pop2_bgp_traffic_port = BGP_traffic_port.get('POP2')
 
         dev_pop1_config = cmd_config(sw_pop1,sw_user,sw_password,dev_pop1_man)
-        dev_pop2_config = cmd_config(sw_pop2,user,pas,dev_pop2_man)
+        dev_pop2_config = cmd_config(sw_pop2,sw_user,sw_password,dev_pop2_man)
 
         #ignore bgp邻居命令
         dev_pop1_Isolate_bgp_cmd = dev_pop1_config.Isolate_bgp_cmd(bgp_peer_ip_pop1,dev_pop1_bgp_as).get(dev_pop1_man)
@@ -403,14 +403,6 @@ class network_workflow_cmd(object):
         dev_pop1_shutdown_traffic_port_cmd = dev_pop1_config.operate_interface_cmd(dev_pop1_bgp_traffic_port,'shutdown','shutdown').get(dev_pop1_man)
         dev_pop2_shutdown_traffic_port_cmd = dev_pop2_config.operate_interface_cmd(dev_pop2_bgp_traffic_port,'shutdown','shutdown').get(dev_pop2_man)
 
-        """
-        #下配置
-        dev_pop1_config.config_cmd(dev_pop1_Isolate_bgp_cmd)
-        dev_pop2_config.config_cmd(dev_pop2_Isolate_bgp_cmd)
-        # 下配置
-        dev_pop1_config.config_cmd(dev_pop1_shutdown_traffic_port_cmd)
-        dev_pop2_config.config_cmd(dev_pop2_shutdown_traffic_port_cmd)
-        """
 
         #恢复命令
         dev_pop1_recover_bgp_peer_cmd = dev_pop1_config.Recover_bgp_peer(bgp_peer_ip_pop1,dev_pop1_bgp_as).get(dev_pop1_man)
