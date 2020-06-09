@@ -451,6 +451,7 @@ if __name__ == '__main__':
 
     a = network_workflow_cmd()
     b = a.BGP_Isolate_workflow_cmd(BGP_info,BGP_traffic_port)
+    c = a.Show_Ip_Next_Interface(['10.4.0.3','10.4.0.4'],sw_info)
     #c = a.OSPF_Isolate_workflow_cmd(['100GE2/0/30','100GE3/0/30','100GE4/0/30'],sw_info)
 
     #print a.Show_Bgp_Peer_Status(['59.108.162.221','103.37.137.26'],sw_info)
@@ -459,4 +460,4 @@ if __name__ == '__main__':
 
     #d = a.Shutdown_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
     #e = a.Up_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
-    print b
+    print c
