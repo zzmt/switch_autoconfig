@@ -375,45 +375,35 @@ class cmd_config(object):
 
 class network_workflow_cmd(object):
     def BGP_Isolate_workflow_cmd(self,BGP_Peer,BGP_traffic_port):
-        #BGP_Peer={'POP1':{'sw_ip':'','bgp_peer_ip':[''],'dev_man':'','bgp_as':''},'POP2':{'sw_ip':'','bgp_peer_ip':[''],'dev_man':'','bgp_as':''}}
-        #BGP_traffic_port = {'POP1':['port1','port2'],'POP2':['port1','port2']}
-        sw_pop1 = BGP_Peer.get('POP1').get('sw_ip')
-        sw_pop2 = BGP_Peer.get('POP2').get('sw_ip')
+        #BGP_Peer={'POP':{'sw_ip':'','bgp_peer_ip':[''],'dev_man':'','bgp_as':''}}
+        #BGP_traffic_port = {'POP':['port1','port2']}
+        sw_pop1 = BGP_Peer.get('POP').get('sw_ip')
 
-        dev_pop1_man = BGP_Peer.get('POP1').get('dev_man')
-        dev_pop2_man = BGP_Peer.get('POP2').get('dev_man')
+        dev_pop1_man = BGP_Peer.get('POP').get('dev_man')
 
-        dev_pop1_bgp_as =  BGP_Peer.get('POP1').get('bgp_as')
-        dev_pop2_bgp_as = BGP_Peer.get('POP2').get('bgp_as')
+        dev_pop1_bgp_as =  BGP_Peer.get('POP').get('bgp_as')
 
-        bgp_peer_ip_pop1 = BGP_Peer.get('POP1').get('bgp_peer_ip')
-        bgp_peer_ip_pop2 = BGP_Peer.get('POP2').get('bgp_peer_ip')
+        bgp_peer_ip_pop1 = BGP_Peer.get('POP').get('bgp_peer_ip')
 
-        dev_pop1_bgp_traffic_port = BGP_traffic_port.get('POP1')
-        dev_pop2_bgp_traffic_port = BGP_traffic_port.get('POP2')
+        dev_pop1_bgp_traffic_port = BGP_traffic_port.get('POP')
 
         dev_pop1_config = cmd_config(sw_pop1,sw_user,sw_password,dev_pop1_man)
-        dev_pop2_config = cmd_config(sw_pop2,sw_user,sw_password,dev_pop2_man)
 
         #ignore bgp邻居命令
         dev_pop1_Isolate_bgp_cmd = dev_pop1_config.Isolate_bgp_cmd(bgp_peer_ip_pop1,dev_pop1_bgp_as).get(dev_pop1_man)
-        dev_pop2_Isolate_bgp_cmd = dev_pop2_config.Isolate_bgp_cmd(bgp_peer_ip_pop2,dev_pop2_bgp_as).get(dev_pop2_man)
 
         #关闭bgp 流量端口命令
         dev_pop1_shutdown_traffic_port_cmd = dev_pop1_config.operate_interface_cmd(dev_pop1_bgp_traffic_port,'shutdown','shutdown').get(dev_pop1_man)
-        dev_pop2_shutdown_traffic_port_cmd = dev_pop2_config.operate_interface_cmd(dev_pop2_bgp_traffic_port,'shutdown','shutdown').get(dev_pop2_man)
 
 
         #恢复命令
         dev_pop1_recover_bgp_peer_cmd = dev_pop1_config.Recover_bgp_peer(bgp_peer_ip_pop1,dev_pop1_bgp_as).get(dev_pop1_man)
-        dev_pop2_recover_bgp_peer_cmd = dev_pop2_config.Recover_bgp_peer(bgp_peer_ip_pop2,dev_pop2_bgp_as).get(dev_pop2_man)
         dev_pop1_open_traffic_port_cmd = dev_pop1_config.operate_interface_cmd(dev_pop1_bgp_traffic_port,'undo shutdown','no shutdown').get(dev_pop1_man)
-        dev_pop2_open_traffic_port_cmd = dev_pop2_config.operate_interface_cmd(dev_pop2_bgp_traffic_port,'undo shutdown','no shutdown').get(dev_pop2_man)
 
-        return  {'BGP_Peer_Isolate':{sw_pop1:dev_pop1_Isolate_bgp_cmd,sw_pop2:dev_pop2_Isolate_bgp_cmd},\
-                 'Traffic_port_shutdown':{sw_pop1:dev_pop1_shutdown_traffic_port_cmd,sw_pop2:dev_pop2_shutdown_traffic_port_cmd},\
-                 'BGP_Peer_Recover':{sw_pop1:dev_pop1_recover_bgp_peer_cmd,sw_pop2:dev_pop2_recover_bgp_peer_cmd},\
-                 'Traffic_port_Recover':{sw_pop1:dev_pop1_open_traffic_port_cmd,sw_pop2:dev_pop2_open_traffic_port_cmd}}
+        return  {'BGP_Peer_Isolate':{sw_pop1:dev_pop1_Isolate_bgp_cmd},\
+                 'Traffic_port_shutdown':{sw_pop1:dev_pop1_shutdown_traffic_port_cmd},\
+                 'BGP_Peer_Recover':{sw_pop1:dev_pop1_recover_bgp_peer_cmd},\
+                 'Traffic_port_Recover':{sw_pop1:dev_pop1_open_traffic_port_cmd}}
 
 
     def OSPF_Isolate_workflow_cmd(self,port_list,sw_info):
@@ -454,10 +444,9 @@ class network_workflow_cmd(object):
 
 if __name__ == '__main__':
 
-    BGP_info = {'POP1': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'},
-                'POP2': {'sw_ip': '2.2.2.2', 'bgp_peer_ip': ['20.20.20.20'], 'dev_man': 'HUAWEI', 'bgp_as': '67899'}}
+    BGP_info = {'POP': {'sw_ip': '1.1.1.1', 'bgp_peer_ip': ['10.10.10.10','3.3.3.3'], 'dev_man': 'HUAWEI', 'bgp_as': '12345'}}
 
-    BGP_traffic_port = {'POP1':['100GE1/0/1','100GE1/0/2'],'POP2':['100GE2/0/1','100GE2/0/2']}
+    BGP_traffic_port = {'POP':['100GE1/0/1','100GE1/0/2']}
     sw_info = {'sw_ip':"10.8.0.15",'dev_man':'HUAWEI'}
 
     a = network_workflow_cmd()
@@ -468,6 +457,6 @@ if __name__ == '__main__':
     #dev_config = cmd_config(sw_info.get('sw_ip'), sw_user, sw_password, sw_info.get('dev_man'))
     #output = dev_config.config_cmd(c.get('DCI_Isolate_ospf_cmd').get('dev_man'))
 
-    d = a.Shutdown_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
-    e = a.Up_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
-    print e
+    #d = a.Shutdown_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
+    #e = a.Up_Interface_cmd(['100GE1/0/1','100GE1/0/2'],sw_info)
+    print b
