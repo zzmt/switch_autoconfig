@@ -7,8 +7,8 @@ from sw_config import HUAWEI
 from sw_config import RUIJIE
 import time
 
-sw_user = 'mipwalker'
-sw_password = 'meituan@wangjing'
+sw_user = '123'
+sw_password = '123'
 
 class cmd_config(object):
     def __init__(self, ip, username, password, netdev_manuf):
